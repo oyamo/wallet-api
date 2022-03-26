@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7.0-rc-alpine
+    container_name: api_redis
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - web_api
