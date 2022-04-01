@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/oyamo/wallet-api/config"
+
 	server "github.com/oyamo/wallet-api/internal/server"
 	"github.com/oyamo/wallet-api/migrations"
 	"github.com/oyamo/wallet-api/pkg/db/mysql"

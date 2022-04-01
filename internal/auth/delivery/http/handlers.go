@@ -193,7 +193,6 @@ func (h *authHandlers) Update() gin.HandlerFunc {
 // @Produce  json
 // @Param id path int true "user_id"
 // @Success 200 {object} models.User
-// @Failure 500 {object} httpErrors.RestError
 // @Router /auth/{id} [get]
 func (h *authHandlers) GetUserByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -225,7 +224,6 @@ func (h *authHandlers) GetUserByID() gin.HandlerFunc {
 // @Param id path int true "user_id"
 // @Produce json
 // @Success 200 {string} string	"ok"
-// @Failure 500 {object} httpErrors.RestError
 // @Router /auth/{id} [delete]
 func (h *authHandlers) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -247,34 +245,12 @@ func (h *authHandlers) Delete() gin.HandlerFunc {
 	}
 }
 
-// FindByName godoc
-// @Summary Find by name
-// @Description Find user by name
-// @Tags Auth
-// @Accept json
-// @Param name query string false "username" Format(username)
-// @Produce json
-// @Success 200 {object} models.UsersList
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/find [get]
 func (h *authHandlers) FindByName() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "not implemented", "data": nil, "status_code": http.StatusInternalServerError})
 	}
 }
 
-// GetUsers godoc
-// @Summary Get users
-// @Description Get the list of all users
-// @Tags Auth
-// @Accept json
-// @Param page query int false "page number" Format(page)
-// @Param size query int false "number of elements per page" Format(size)
-// @Param orderBy query int false "filter name" Format(orderBy)
-// @Produce json
-// @Success 200 {object} models.UsersList
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/all [get]
 func (h *authHandlers) GetUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "not implemented", "data": nil, "status_code": http.StatusInternalServerError})
@@ -288,7 +264,6 @@ func (h *authHandlers) GetUsers() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.User
-// @Failure 500 {object} httpErrors.RestError
 // @Router /auth/me [get]
 func (h *authHandlers) GetMe() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -303,7 +278,6 @@ func (h *authHandlers) GetMe() gin.HandlerFunc {
 // @Accept json
 // @Produce json
 // @Success 200 {string} string "Ok"
-// @Failure 500 {object} httpErrors.RestError
 // @Router /auth/token [get]
 func (h *authHandlers) GetCSRFToken() gin.HandlerFunc {
 	return func(c *gin.Context) {

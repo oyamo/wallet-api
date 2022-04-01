@@ -1,0 +1,383 @@
+basePath: /api/v1
+definitions:
+  models.User:
+    properties:
+      about:
+        maxLength: 1024
+        type: string
+      address:
+        maxLength: 250
+        type: string
+      avatar:
+        maxLength: 512
+        type: string
+      birthday:
+        maxLength: 10
+        type: string
+      city:
+        maxLength: 24
+        type: string
+      country:
+        maxLength: 24
+        type: string
+      created_at:
+        type: string
+      email:
+        maxLength: 60
+        type: string
+      first_name:
+        maxLength: 30
+        type: string
+      gender:
+        maxLength: 10
+        type: string
+      last_name:
+        maxLength: 30
+        type: string
+      login_date:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      phone_number:
+        maxLength: 20
+        type: string
+      postcode:
+        type: integer
+      role:
+        maxLength: 10
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    type: object
+  models.Wallet:
+    properties:
+      balance:
+        type: number
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+      wallet_id:
+        type: string
+    required:
+    - user_id
+    type: object
+info:
+  contact:
+    email: oyamo.xyz@gmail.com
+    name: Oyamo Brian
+    url: https://github.com/oyamo
+  description: An API for managing transactions.go of players
+  title: Wallet API
+  version: "1.0"
+paths:
+  /auth/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: some description
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Delete user account
+      tags:
+      - Auth
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: get user by id
+      tags:
+      - Auth
+    put:
+      consumes:
+      - application/json
+      description: update existing user
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update user
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: login user, returns user and set session
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Login new user
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: logout user removing session
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Logout user
+      tags:
+      - Auth
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Get current user by id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get user by id
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: register new user, returns user and token
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Register new user
+      tags:
+      - Auth
+  /auth/token:
+    get:
+      consumes:
+      - application/json
+      description: Get CSRF token, required auth session cookie
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: string
+      summary: Get CSRF token
+      tags:
+      - Auth
+  /transactions/bywallet/{wallet_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get transactions by wallet id. Transactions are logs of money actions
+        e.g debit and credit.
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Wallet'
+            type: array
+      summary: Get transactions by wallet id
+      tags:
+      - Transactions
+  /wallets:
+    post:
+      consumes:
+      - application/json
+      description: Set up a new wallet for the user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Create a new wallet
+      tags:
+      - Wallet
+  /wallets/{wallet_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a wallet from the database
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Delete a wallet
+      tags:
+      - Wallet
+    get:
+      consumes:
+      - application/json
+      description: Lookup a wallet by ID
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Get a wallet by ID
+      tags:
+      - Wallet
+    put:
+      consumes:
+      - application/json
+      description: Change the value of a wallet
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Update a wallet
+      tags:
+      - Wallet
+  /wallets/{wallet_id}/balance:
+    get:
+      consumes:
+      - application/json
+      description: Get a wallet balance by ID
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Get a wallet balance by ID
+      tags:
+      - Wallet
+  /wallets/{wallet_id}/credit:
+    post:
+      consumes:
+      - application/json
+      description: credit money into a wallet
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: Put money into a wallet
+      tags:
+      - Wallet
+  /wallets/{wallet_id}/debit:
+    post:
+      consumes:
+      - application/json
+      description: debit money from a wallet
+      parameters:
+      - description: Wallet ID
+        in: path
+        name: wallet_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Wallet'
+      summary: withdraw money from a wallet
+      tags:
+      - Wallet
+swagger: "2.0"

@@ -23,6 +23,15 @@ type txHandlers struct {
 	txUC     transaction.Usecase
 }
 
+// GetByWalletID godoc
+// @Summary Get transactions by wallet id
+// @Description Get transactions by wallet id. Transactions are logs of money actions e.g debit and credit.
+// @Tags Transactions
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 200 {object} []models.Wallet
+// @Router /transactions/bywallet/{wallet_id} [get]
 func (t txHandlers) GetByWalletID() gin.HandlerFunc {
 	response := models.Response[interface{}]{}
 

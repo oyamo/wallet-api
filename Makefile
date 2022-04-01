@@ -21,3 +21,6 @@ test:
 	echo "Testing ..."
 	go test -v ./...
 
+swagger:
+	echo "Generating swagger file"
+	swag init --parseDependency --parseInternal --parseDepth 90 -g cmd/api/main.go

@@ -18,6 +18,14 @@ type walletHandler struct {
 	txUc     transaction.Usecase
 }
 
+// Create godoc
+// @Summary Create a new wallet
+// @Description Set up a new wallet for the user
+// @Tags Wallet
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Wallet
+// @Router /wallets [post]
 func (w *walletHandler) Create() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var wallet models.Wallet
@@ -36,7 +44,7 @@ func (w *walletHandler) Create() gin.HandlerFunc {
 
 		if !exists {
 			response.Data = nil
-			response.Message = "Authentication failed"
+			response.Message = "Walletentication failed"
 			response.ResponseCode = http.StatusUnauthorized
 			ctx.JSON(http.StatusUnauthorized, response)
 			return
@@ -66,6 +74,16 @@ func (w *walletHandler) Create() gin.HandlerFunc {
 	}
 }
 
+// Update godoc
+// @Summary Update a wallet
+// @Description Change the value of a wallet
+// @Tags Wallet
+// @Body models.Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Wallet
+// @Router /wallets/{wallet_id} [put]
 func (w *walletHandler) Update() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var wallet models.Wallet
@@ -85,7 +103,7 @@ func (w *walletHandler) Update() gin.HandlerFunc {
 
 		if !exists {
 			response.Data = nil
-			response.Message = "Authentication failed"
+			response.Message = "Walletentication failed"
 			response.ResponseCode = http.StatusUnauthorized
 			ctx.JSON(http.StatusUnauthorized, response)
 			return
@@ -114,6 +132,15 @@ func (w *walletHandler) Update() gin.HandlerFunc {
 	}
 }
 
+// Delete godoc
+// @Summary Delete a wallet
+// @Description Remove a wallet from the database
+// @Tags Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Wallet
+// @Router /wallets/{wallet_id} [delete]
 func (w *walletHandler) Delete() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		walletId, err := uuid.Parse(ctx.Param("wallet_id"))
@@ -150,6 +177,15 @@ func (w *walletHandler) Delete() gin.HandlerFunc {
 	}
 }
 
+// GetByID godoc
+// @Summary Get a wallet by ID
+// @Description Lookup a wallet by ID
+// @Tags Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Wallet
+// @Router /wallets/{wallet_id} [get]
 func (w *walletHandler) GetByID() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		walletId, err := uuid.Parse(ctx.Param("wallet_id"))
@@ -190,6 +226,15 @@ func (w *walletHandler) GetByID() gin.HandlerFunc {
 	}
 }
 
+// GetBalanceByID godoc
+// @Summary Get a wallet balance by ID
+// @Description Get a wallet balance by ID
+// @Tags Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Wallet
+// @Router /wallets/{wallet_id}/balance [get]
 func (w *walletHandler) GetBalanceByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		walletUUID, err := uuid.Parse(c.Param("wallet_id"))
@@ -213,6 +258,15 @@ func (w *walletHandler) GetBalanceByID() gin.HandlerFunc {
 	}
 }
 
+// Debit godoc
+// @Summary withdraw money from a wallet
+// @Description debit money from a wallet
+// @Tags Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Wallet
+// @Router /wallets/{wallet_id}/debit [post]
 func (w *walletHandler) Debit() gin.HandlerFunc {
 	type tx struct {
 		Amount float64 `json:"amount" validate:"required,gte=1"`
@@ -271,6 +325,15 @@ func (w *walletHandler) Debit() gin.HandlerFunc {
 	}
 }
 
+// Credit godoc
+// @Summary Put money into a wallet
+// @Description credit money into a wallet
+// @Tags Wallet
+// @Param wallet_id path string true "Wallet ID"
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Wallet
+// @Router /wallets/{wallet_id}/credit [post]
 func (w *walletHandler) Credit() gin.HandlerFunc {
 
 	type tx struct {

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
+	docs "github.com/oyamo/wallet-api/docs"
 	authHandler "github.com/oyamo/wallet-api/internal/auth/delivery/http"
 	authRepo "github.com/oyamo/wallet-api/internal/auth/repository"
 	"github.com/oyamo/wallet-api/internal/auth/usecase"
@@ -16,6 +17,8 @@ import (
 	walletHandler "github.com/oyamo/wallet-api/internal/wallets/delivery/http"
 	walletRepo "github.com/oyamo/wallet-api/internal/wallets/repository"
 	walletUseCase "github.com/oyamo/wallet-api/internal/wallets/usecase"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 )
 
@@ -51,6 +54,11 @@ func (s *Server) MapHandlers(e *gin.Engine) error {
 	mw := middleware.NewMiddlewareManager(sessUC, authUC, s.cfg, []string{"*"})
 	e.Use(requestid.New())
 	e.Use(cors.Default())
+	// Server swagger
+
+	docs.SwaggerInfo.BasePath = "/api/v1"
+
+	e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	walletHandler.MapWalletRoutes(wallet, walletHandlers, mw)
 	authHandler.MapAuthRoutes(auth, authHandlers, mw)
