@@ -13,7 +13,7 @@ start-dev:
 	echo "Running Development"
 	docker-compose --env-file ./config/.env up
 
-genmock:
+mock:
 	echo "Generating interface mock"
 	go generate ./...
 
