@@ -31,6 +31,6 @@ It has been built by implementing clean architecture and following the [MVC](htt
     make test // Run all unit tests
 
 ### Screenshots
-![Swagger](./screenshots/img.png)
+![Swagger](./screenshot/img.png)
 
 
