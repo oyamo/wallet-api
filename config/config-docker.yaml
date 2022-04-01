@@ -1,5 +1,19 @@
+server:
+  AppVersion: 1.0.0
+  Port: :5000
+  PprofPort: :5555
+  Mode: Development
+  JwtSecretKey: secretkey
+  CookieName: jwt-token
+  ReadTimeout: 10
+  WriteTimeout: 10
+  SSL: true
+  CtxDefaultTimeout: 12
+  CSRF: true
+  Debug: false
+
 redis:
-  RedisAddr: localhost:6379
+  RedisAddr: wallet_redis:6379
   RedisPassword:
   RedisDb: 0
   RedisDefaultdb: 0
@@ -8,3 +22,21 @@ redis:
   PoolTimeout: 240
   Password: ""
   DB: 0
+
+mysql:
+  MySQLHost: mysql_db
+  MySQLPort: 3306
+  MySQLUser: root
+  MySQLPassword: toor
+  MySQLDbname: wallet
+
+cookie:
+  Name: jwt-token
+  MaxAge: 86400
+  Secure: false
+  HttpOnly: true
+
+session:
+  Name: session-id
+  Prefix: api-session
+  Expire: 3600

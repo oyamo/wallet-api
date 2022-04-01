@@ -1,11 +1,76 @@
 version: "3.8"
 
 services:
+  # Mysql
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    tty: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MySQLPassword}
+      - MYSQL_PASSWORD=${MySQLPassword}
+      - MYSQL_DATABASE=${MySQLDbname}
+    volumes:
+      - db_volume
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=MYSQL_ROOT_PASSWORD
+      interval: 5s
+      retries: 10
+    networks:
+      - wallet_net
+
+  # governing Database
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "7612:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql_db
+
+    depends_on:
+      - mysql_db
+    networks:
+      - wallet_net
+  web:
+    container_name: wallet_api
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5555:5555"
+      - "7070:7070"
+    environment:
+      - PORT=5000
+    depends_on:
+      - mysql_db
+      - redis
+    restart: always
+    volumes:
+      - ./:/app
+    networks:
+      - wallet_net
+
   redis:
-    image: redis:7.0-rc-alpine
-    container_name: api_redis
+    image: redis:6-alpine
+    container_name: wallet_redis
     ports:
       - "6379:6379"
     restart: always
     networks:
-      - web_api
+      - wallet_net
+
+networks:
+  wallet_net:
+    driver: bridge
+
+volumes:
+  db_volume:
+    driver: local
