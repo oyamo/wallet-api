@@ -16,3 +16,8 @@ start-dev:
 genmock:
 	echo "Generating interface mock"
 	go generate ./...
+
+test:
+	echo "Testing ..."
+	go test -v ./...
+

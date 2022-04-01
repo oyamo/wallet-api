@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"github.com/oyamo/wallet-api/internal/models"
+	"github.com/oyamo/wallet-api/internal/session"
 	"log"
 	"testing"
 
@@ -9,9 +11,6 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
-
-	"github.com/AleksK1NG/api-mc/internal/models"
-	"github.com/AleksK1NG/api-mc/internal/session"
 )
 
 func SetupRedis() session.SessRepository {

@@ -18,7 +18,7 @@ func MakeToken(sid string) string {
 	hash := sha256.New()
 	_, err := io.WriteString(hash, csrfSalt+sid)
 	if err != nil {
-		log.Errorf("Make CSRF Token", err)
+		log.Errorf("Make CSRF Token: %v", err)
 	}
 	token := base64.RawStdEncoding.EncodeToString(hash.Sum(nil))
 	return token

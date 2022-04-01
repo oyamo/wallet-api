@@ -47,7 +47,7 @@ func (s *Server) Run() error {
 	go func() {
 		log.Infof("Server is listening on PORT: %s", s.cfg.Server.Port)
 		if err := s.engine.Run(server.Addr); err != nil {
-			log.Fatalf("Error starting Server: ", err)
+			log.Fatalf("Error starting Server: %v", err)
 		}
 	}()
 
